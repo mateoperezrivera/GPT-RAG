@@ -148,7 +148,98 @@
         {
           "name": "mcp",
           "canonical_name": "MCP_CONTAINER"
+        },
+        {
+  "name": "chainlit_users",
+  "canonical_name": "CHAINLIT_USERS_CONTAINER",
+  "partitionKey": "/id",
+  "indexingPolicy": {
+    "indexingMode": "consistent",
+    "automatic": true,
+    "includedPaths": [
+      {
+        "path": "/*"
+      }
+    ],
+    "excludedPaths": [
+      {
+        "path": "/\"_etag\"/?"
+      }
+    ]
+  }
+},
+{
+  "name": "chainlit_thread_list",
+  "canonical_name": "CHAINLIT_THREAD_LIST_CONTAINER", 
+  "partitionKey": "/userId",
+  "indexingPolicy": {
+    "indexingMode": "consistent",
+    "automatic": true,
+    "includedPaths": [
+      {
+        "path": "/*"
+      }
+    ],
+    "excludedPaths": [
+      {
+        "path": "/\"_etag\"/?"
+      }
+    ],
+    "compositeIndexes": [
+      [
+        {
+          "path": "/userId",
+          "order": "ascending"
+        },
+        {
+          "path": "/createdAt",
+          "order": "descending"
         }
+      ]
+    ]
+  }
+},
+{
+  "name": "chainlit_items",
+  "canonical_name": "CHAINLIT_ITEMS_CONTAINER",
+  "partitionKey": "/threadId", 
+  "indexingPolicy": {
+    "indexingMode": "consistent",
+    "automatic": true,
+    "includedPaths": [
+      {
+        "path": "/*"
+      }
+    ],
+    "excludedPaths": [
+      {
+        "path": "/\"_etag\"/?"
+      }
+    ],
+    "compositeIndexes": [
+      [
+        {
+          "path": "/threadId",
+          "order": "ascending"
+        },
+        {
+          "path": "/data_type",
+          "order": "ascending"
+        }
+      ],
+      [
+        {
+          "path": "/threadId", 
+          "order": "ascending"
+        },
+        {
+          "path": "/createdAt",
+          "order": "ascending"
+        }
+      ]
+    ]
+   }
+  }
       ]
     },
 
@@ -186,7 +277,8 @@
             "AcrPull",
             "StorageBlobDataReader",
             "StorageBlobDelegator",
-            "KeyVaultSecretsUser"
+            "KeyVaultSecretsUser",
+            "CosmosDBBuiltInDataContributor"
           ]
         },
         {
